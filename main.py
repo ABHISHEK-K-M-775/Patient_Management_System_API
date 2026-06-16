@@ -1,7 +1,20 @@
 from fastapi import FastAPI,Path,HTTPException,Query
+from pydantic import BaseModel,Field
+from typing import Annotated,Literal,Optional
 import pandas as pd
 import json
 
+
+class patient(BaseModel):
+    id=Annotated[str,Field(...,description='this is the unique id given to patient must be strig as well')]
+    name:Annotated[str,Field(...,description='name of the patient must be string')]
+    city: Annotated[str, Field(..., description='City where the patient is living')]
+    age:Annotated[int,Field(...,gt=0,lt=100,description='age of the patient')]
+    gender:Annotated[Literal['male','female','others'],description='gender of the patients'] 
+
+
+    
+      
 def load_data():
     with open('patients.json','r') as f:
         data=json.load(f)
