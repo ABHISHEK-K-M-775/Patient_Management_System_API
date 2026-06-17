@@ -142,3 +142,16 @@ def update_patient(id:str,patient_update:patient_update):
     save_data(data)
 
     return JSONResponse(status_code=200,content='patient updated')
+
+@app.delete('/delete/{id}')
+def delete_patient(id):
+    data=load_data()
+
+    if id not in data:
+        raise HTTPException(status_code=404,detail='patient id doesnot exist')
+    
+    del data[id]
+
+    save_data(data)
+
+    return JSONResponse(status_code=200,content='deletion successful')
